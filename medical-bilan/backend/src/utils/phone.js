@@ -23,11 +23,28 @@
  */
 const normalizePhone = (raw) => {
   if (!raw) return '';
-  const cleaned = String(raw).replace(/\s+/g, '').replace(/[^\d+]/g, '');
-  if (cleaned.startsWith('+213'))   return cleaned;
-  if (cleaned.startsWith('00213'))  return '+' + cleaned.slice(2);
-  if (cleaned.startsWith('213'))    return '+' + cleaned;
-  if (cleaned.startsWith('0'))      return '+213' + cleaned.slice(1);
+  let cleaned = String(raw).replace(/\s+/g, '').replace(/[^\d+]/g, '');
+  
+  if (cleaned.startsWith('00213')) {
+    cleaned = '+' + cleaned.slice(2);
+  } else if (cleaned.startsWith('213')) {
+    cleaned = '+' + cleaned;
+  }
+  
+  if (cleaned.startsWith('+213')) {
+    let rest = cleaned.slice(4);
+    if (rest.startsWith('0')) rest = rest.slice(1);
+    return '+213' + rest;
+  }
+  
+  if (cleaned.startsWith('0')) {
+    return '+213' + cleaned.slice(1);
+  }
+  
+  if (!cleaned.startsWith('+') && cleaned.length === 9) {
+    return '+213' + cleaned;
+  }
+  
   return cleaned.startsWith('+') ? cleaned : '+' + cleaned;
 };
 
@@ -39,7 +56,8 @@ const normalizePhone = (raw) => {
  * register patients with landline numbers if they don't have a mobile.
  */
 const isValidAlgerianPhone = (normalized) => {
-  return /^\+213\d{9}$/.test(normalized);
+  // Allow between 8 and 14 digits after +213 to account for typos or specific numbers
+  return /^\+213\d{8,14}$/.test(normalized);
 };
 
 module.exports = { normalizePhone, isValidAlgerianPhone };

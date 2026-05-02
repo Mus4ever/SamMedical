@@ -1,0 +1,74 @@
+{
+  "brand": {
+    "name": "Clinique",
+    "tagline": "Vos résultats, en sécurité"
+  },
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "services": "Services",
+    "contact": "Contact",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "dashboard": "Tableau de bord",
+    "patients": "Patients",
+    "bilans": "Mes résultats"
+  },
+  "landing": {
+    "hero": {
+      "headlineMain": "Au-delà des examens,",
+      "headlineEm": "votre tranquillité.",
+      "description": "Plateforme moderne de gestion des analyses médicales. Recevez vos résultats par notification automatique et consultez-les en toute confidentialité.",
+      "cta": "Accéder à mon espace"
+    },
+    "about": {
+      "title": "Une expérience de soin repensée.",
+      "body": "Nous avons conçu cette plateforme pour libérer le patient et le médecin de la friction administrative. Vos résultats vous parviennent dès qu'ils sont disponibles, dans un environnement sécurisé."
+    },
+    "services": {
+      "title": "Trois canaux. Une seule promesse.",
+      "items": [
+        { "title": "Notification SMS", "body": "Un message en arabe dès que vos résultats sont prêts." },
+        { "title": "Appel automatique", "body": "Un rappel vocal en darija pour ne rien manquer." },
+        { "title": "Email récapitulatif", "body": "Un courriel détaillé avec votre rapport en pièce jointe sécurisée." }
+      ]
+    },
+    "contact": {
+      "title": "Restons en contact.",
+      "body": "Une question, une suggestion ? Notre équipe vous répond.",
+      "cta": "Nous écrire"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Accédez à vos résultats d'analyses",
+      "phone": "Numéro de téléphone",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "submitting": "Connexion..."
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "search": "Rechercher",
+    "language": "Langue",
+    "back": "Retour"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page introuvable",
+      "body": "La page que vous cherchez n'existe pas.",
+      "cta": "Retour à l'accueil"
+    },
+    "forbidden": {
+      "title": "Accès refusé",
+      "body": "Vous n'avez pas les droits nécessaires pour accéder à cette page.",
+      "cta": "Retour à l'accueil"
+    }
+  }
+}

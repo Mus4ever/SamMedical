@@ -1,0 +1,19 @@
+/* Custom animations + transitions used across the app.
+   Tailwind also defines fade-rise variants in tailwind.config.js — these are
+   the manually-callable equivalents you can use in inline styles or JSX. */
+
+@keyframes fadeRise {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0);    }
+}
+
+.animate-fade-rise         { animation: fadeRise 0.8s ease-out forwards; }
+.animate-fade-rise-delay   { animation: fadeRise 0.8s ease-out 0.2s forwards; opacity: 0; }
+.animate-fade-rise-delay-2 { animation: fadeRise 0.8s ease-out 0.4s forwards; opacity: 0; }
+
+/* Subtle hover scale for primary CTAs */
+.hover-scale { transition: transform 0.2s ease-out; }
+.hover-scale:hover { transform: scale(1.03); }
+
+/* Smooth scroll for anchor links on the landing page */
+html { scroll-behavior: smooth; }
