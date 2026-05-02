@@ -20,8 +20,8 @@
 set -e
 
 REPO_URL="git@github.com:Mus4ever/SamMedical.git"
-AUTHOR_NAME="Abdenour Benkorich"
-AUTHOR_EMAIL="fiikra.studio@gmail.com"
+AUTHOR_NAME="Mustapha Bouzid"
+AUTHOR_EMAIL="mus9xx@gmail.com"
 
 echo "==> Cleaning any stale .git folder..."
 rm -rf .git
@@ -52,7 +52,17 @@ git commit -m "Initial commit: project skeleton + auth backend (Layers 1-2)
 - PWA manifest, .gitignore, README, full Supabase setup guide"
 
 echo "==> Pushing to GitHub..."
-git push -u origin main
+if ! git push -u origin main; then
+  echo ""
+  echo "⚠️  Push was rejected (the remote has commits you don't have locally)."
+  echo "If this is a brand-new repo and you want your local commit to win, run:"
+  echo "    git push -u origin main --force"
+  echo ""
+  echo "Or to keep the remote files (will merge them in):"
+  echo "    git pull origin main --allow-unrelated-histories --no-edit"
+  echo "    git push -u origin main"
+  exit 1
+fi
 
 echo ""
 echo "✅ Done! Repo is live at https://github.com/Mus4ever/SamMedical"

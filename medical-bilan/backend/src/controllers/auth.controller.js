@@ -11,24 +11,10 @@ const { validationResult } = require('express-validator');
 const config = require('../config/env');
 const { query } = require('../config/db');
 const { HttpError } = require('../middleware/errorHandler');
-
-/**
- * Normalize an Algerian phone number to the canonical +213XXXXXXXXX form.
- * Accepts the user typing things like "0770000000", "770000000", "+213770000000".
- */
-const normalizePhone = (raw) => {
-  if (!raw) return '';
-  const digits = String(raw).replace(/\s+/g, '').replace(/[^\d+]/g, '');
-  if (digits.startsWith('+213')) return digits;
-  if (digits.startsWith('00213')) return '+' + digits.slice(2);
-  if (digits.startsWith('0'))     return '+213' + digits.slice(1);
-  // fallback: assume already in international format
-  return digits.startsWith('+') ? digits : '+' + digits;
-};
+const { normalizePhone } = require('../utils/phone');
 
 const login = async (req, res, next) => {
   try {
-    // Validation errors caught by express-validator
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       throw new HttpError(400, 'Données invalides', errors.array());

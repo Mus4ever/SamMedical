@@ -19,6 +19,7 @@ const config = require('./config/env');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/auth.routes');
+const patientRoutes = require('./routes/patient.routes');
 
 const app = express();
 
@@ -74,6 +75,7 @@ app.get('/health', (req, res) => res.json({
 
 // --- API routes ---
 app.use('/api/auth', authRoutes);
+app.use('/api/patients', patientRoutes);
 
 // --- 404 + error handler (must be LAST) ---
 app.use(notFound);

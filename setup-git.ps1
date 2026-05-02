@@ -10,8 +10,8 @@
 $ErrorActionPreference = "Stop"
 
 $RepoUrl     = "git@github.com:Mus4ever/SamMedical.git"
-$AuthorName  = "Abdenour Benkorich"
-$AuthorEmail = "fiikra.studio@gmail.com"
+$AuthorName  = "Mustapha Bouzid"
+$AuthorEmail = "mus9xx@gmail.com"
 
 Write-Host "==> Cleaning any stale .git folder..." -ForegroundColor Cyan
 if (Test-Path ".git") {
@@ -48,6 +48,17 @@ git commit -m $msg
 
 Write-Host "==> Pushing to GitHub..." -ForegroundColor Cyan
 git push -u origin main
+if ($LASTEXITCODE -ne 0) {
+    Write-Host ""
+    Write-Host "Push was rejected (the remote probably has commits you don't have locally)." -ForegroundColor Yellow
+    Write-Host "If this is a brand-new repo and you want your local commit to win, run:" -ForegroundColor Yellow
+    Write-Host "  git push -u origin main --force" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Or to keep the remote files (will merge them in):" -ForegroundColor Yellow
+    Write-Host "  git pull origin main --allow-unrelated-histories --no-edit" -ForegroundColor White
+    Write-Host "  git push -u origin main" -ForegroundColor White
+    exit 1
+}
 
 Write-Host ""
 Write-Host "Done! Repo is live at https://github.com/Mus4ever/SamMedical" -ForegroundColor Green
