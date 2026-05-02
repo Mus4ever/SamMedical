@@ -2,9 +2,9 @@
  * Express app — configures middleware + mounts routes.
  *
  * Layered routes are added one per layer:
- *   Layer 2 (now): /api/auth
+ *   Layer 2: /api/auth
  *   Layer 3: /api/patients
- *   Layer 5: /api/bilans
+ *   Layer 4: /api/bilans  (Supabase Storage + CRUD)
  *   Layer 6: /api/notifications
  */
 
@@ -20,6 +20,7 @@ const { errorHandler, notFound } = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/auth.routes');
 const patientRoutes = require('./routes/patient.routes');
+const bilanRoutes = require('./routes/bilan.routes');
 
 const app = express();
 
@@ -76,6 +77,7 @@ app.get('/health', (req, res) => res.json({
 // --- API routes ---
 app.use('/api/auth', authRoutes);
 app.use('/api/patients', patientRoutes);
+app.use('/api/bilans', bilanRoutes);
 
 // --- 404 + error handler (must be LAST) ---
 app.use(notFound);
