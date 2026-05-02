@@ -1,0 +1,60 @@
+# ============================================================
+# Medical Bilan System — .gitignore
+# ============================================================
+
+# --- Secrets (NEVER commit) ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- Node ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.yarn/
+
+# --- Build output ---
+dist/
+build/
+out/
+.vite/
+.next/
+.cache/
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Coverage / test ---
+coverage/
+.nyc_output/
+
+# --- Backend uploads (temp local storage before Supabase upload) ---
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# --- Audio (generated, not committed — generate locally with scripts/generate-audio.js) ---
+backend/audio/*.mp3
+backend/audio/*.wav
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Misc ---
+.eslintcache
+.parcel-cache/
+*.tsbuildinfo
