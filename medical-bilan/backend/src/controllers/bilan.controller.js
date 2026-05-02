@@ -6,7 +6,7 @@
  *   GET    /api/bilans              → admin lists all bilans (with patient info)
  *   GET    /api/bilans/my           → patient lists their own bilans
  *   GET    /api/bilans/:id/download → signed URL to view/download the PDF
- *   PATCH  /api/bilans/:id/ready    → admin marks a bilan as ready (notification plugged in Layer 6)
+ *   PATCH  /api/bilans/:id/ready    → admin marks a bilan as ready + triggers notifications
  *   DELETE /api/bilans/:id          → admin deletes bilan from storage + DB
  */
 
@@ -14,6 +14,7 @@ const { validationResult } = require('express-validator');
 const { query } = require('../config/db');
 const { HttpError } = require('../middleware/errorHandler');
 const { uploadBilan: uploadToStorage, getSignedUrl, deleteBilan: deleteFromStorage } = require('../services/storage.service');
+const { notifyPatient } = require('../services/notification.service');
 
 const validate = (req) => {
   const errors = validationResult(req);
@@ -215,7 +216,7 @@ const getBilanDownloadUrl = async (req, res, next) => {
 /**
  * PATCH /api/bilans/:id/ready
  * Admin: mark a bilan as ready for the patient.
- * In Layer 6, this will also trigger notifications (Twilio + Resend).
+ * Triggers notifications (SMS + call + email) asynchronously.
  */
 const markBilanReady = async (req, res, next) => {
   try {
@@ -239,14 +240,22 @@ const markBilanReady = async (req, res, next) => {
       [id]
     );
 
-    // TODO (Layer 6): trigger notifications here
-    // const patient = await query('SELECT * FROM users WHERE id = $1', [bilan.patient_id]);
-    // await notifyPatient(bilan, patient.rows[0]);
+    // Get patient info for notifications
+    const patientResult = await query(
+      'SELECT id, full_name, phone, email FROM users WHERE id = $1',
+      [bilan.patient_id]
+    );
+    const patient = patientResult.rows[0];
+
+    // Trigger notifications async — don't block the response
+    notifyPatient(updated.rows[0], patient).catch((err) => {
+      console.error(`[bilan] Notification error for bilan ${id}:`, err.message);
+    });
 
     res.json({
       bilan: updated.rows[0],
-      message: 'Bilan marqué prêt',
-      // notification: 'Notifications seront activées dans Layer 6',
+      message: 'Bilan marqué prêt, notifications en cours d\'envoi',
+      patient: { name: patient.full_name, phone: patient.phone },
     });
   } catch (err) {
     next(err);

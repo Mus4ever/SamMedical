@@ -1,11 +1,11 @@
 /**
  * Express app — configures middleware + mounts routes.
  *
- * Layered routes are added one per layer:
+ * Layered routes:
  *   Layer 2: /api/auth
  *   Layer 3: /api/patients
- *   Layer 4: /api/bilans  (Supabase Storage + CRUD)
- *   Layer 6: /api/notifications
+ *   Layer 5: /api/bilans       (bilan CRUD, uses Supabase Storage from Layer 4)
+ *   Layer 6: /api/notifications (Twilio voice + SMS, Resend email)
  */
 
 const express = require('express');
@@ -21,6 +21,7 @@ const { errorHandler, notFound } = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth.routes');
 const patientRoutes = require('./routes/patient.routes');
 const bilanRoutes = require('./routes/bilan.routes');
+const notificationRoutes = require('./routes/notification.routes');
 
 const app = express();
 
@@ -52,7 +53,7 @@ app.use(
   '/api/',
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 300,                                    // allow active admin sessions
+    max: 300,
     standardHeaders: true,
     legacyHeaders: false,
     skipSuccessfulRequests: false,
@@ -61,7 +62,6 @@ app.use(
 );
 
 // --- Public static: pre-recorded audio (Twilio fetches these) ---
-// Will be used in Layer 6. Safe to mount now — folder exists.
 app.use('/audio', express.static(path.join(__dirname, '..', 'audio'), {
   fallthrough: false,
   maxAge: '1d',
@@ -78,6 +78,7 @@ app.get('/health', (req, res) => res.json({
 app.use('/api/auth', authRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/bilans', bilanRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // --- 404 + error handler (must be LAST) ---
 app.use(notFound);
