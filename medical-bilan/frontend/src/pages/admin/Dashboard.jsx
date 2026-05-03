@@ -1,77 +1,61 @@
-import { Link } from 'react-router-dom';
-import { Users, FileText, CheckCircle2, Clock, ArrowRight } from 'lucide-react';
+import { Users, FileText, CheckCircle2, Clock, Sparkles } from 'lucide-react';
 import AdminLayout from '../../layouts/AdminLayout';
 import StatCard from '../../components/admin/StatCard';
-import BilanStatusBadge from '../../components/admin/BilanStatusBadge';
+import ActivityFeed from '../../components/admin/ActivityFeed';
+import MiniBarChart from '../../components/admin/MiniBarChart';
+import QuickActions from '../../components/admin/QuickActions';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { usePatientsList } from '../../hooks/queries/usePatients';
 import { useAllBilans } from '../../hooks/queries/useBilans';
-import { formatRelative } from '../../utils/formatDate';
+import { useAuth } from '../../hooks/useAuth';
 
 const Dashboard = () => {
-  const patientsQ = usePatientsList({ limit: 1 });
+  const { user } = useAuth();
+  const patientsQ = usePatientsList({ limit: 5 });
   const allBilansQ = useAllBilans({ limit: 200 });
-  const recentBilansQ = useAllBilans({ limit: 5 });
 
   const totalPatients = patientsQ.data?.total ?? null;
-  const allBilans     = allBilansQ.data?.bilans ?? [];
-  const pendingCount  = allBilans.filter(b => b.status === 'pending').length;
-  const readyCount    = allBilans.filter(b => b.status === 'ready').length;
-  const totalBilans   = allBilansQ.data?.total ?? null;
+  const recentPatients = patientsQ.data?.patients ?? [];
+  const allBilans      = allBilansQ.data?.bilans ?? [];
+  const pendingCount   = allBilans.filter(b => b.status === 'pending').length;
+  const readyCount     = allBilans.filter(b => b.status !== 'pending').length;
+  const totalBilans    = allBilansQ.data?.total ?? null;
+
+  if (allBilansQ.isLoading || patientsQ.isLoading) {
+    return <AdminLayout><div className="flex justify-center py-20"><LoadingSpinner /></div></AdminLayout>;
+  }
 
   return (
     <AdminLayout>
-      {/* Page header */}
-      <div className="mb-8">
-        <h1 className="font-serif text-5xl text-ink" style={{ letterSpacing: '-1px' }}>
-          Tableau de bord
-        </h1>
-        <p className="text-muted text-sm mt-2">Aperçu de l'activité de la clinique.</p>
+      {/* Header */}
+      <div className="mb-10 animate-fade-rise">
+        <div className="inline-flex items-center gap-2 glass-mint rounded-full px-3 py-1 text-xs text-mint-700 font-medium mb-4">
+          <Sparkles className="w-3 h-3" />
+          {user?.fullName?.split(' ')[0] ? `Bonjour ${user.fullName.split(' ')[0]}` : 'Bonjour'}
+        </div>
+        <h1 className="display text-5xl text-ink">Tableau de bord</h1>
+        <p className="text-muted text-sm mt-3">Aperçu temps réel de l'activité de la clinique.</p>
       </div>
 
-      {/* Stat cards */}
+      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Patients"       value={totalPatients}  icon={Users}        accent="bg-blue-50 text-blue-700" />
-        <StatCard label="Total bilans"   value={totalBilans}    icon={FileText}     accent="bg-ink/5 text-ink" />
-        <StatCard label="En attente"     value={pendingCount}   icon={Clock}        accent="bg-amber-50 text-amber-700" hint="À marquer comme prêts" />
-        <StatCard label="Notifiés"       value={readyCount}     icon={CheckCircle2} accent="bg-emerald-50 text-emerald-700" hint="Prêts pour le patient" />
+        <StatCard label="Patients"     value={totalPatients} icon={Users}        accent="mint"  />
+        <StatCard label="Total bilans" value={totalBilans}   icon={FileText}     accent="sky"   />
+        <StatCard label="En attente"   value={pendingCount}  icon={Clock}        accent="amber" hint="À marquer prêts" />
+        <StatCard label="Notifiés"     value={readyCount}    icon={CheckCircle2} accent="peach" hint="Envoyés au patient" />
       </div>
 
-      {/* Recent bilans */}
-      <div className="mt-12">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-serif text-2xl text-ink">Derniers bilans</h2>
-          <Link to="/admin/patients" className="text-sm text-muted hover:text-ink inline-flex items-center gap-1 transition">
-            Voir les patients <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+      {/* Chart + Quick actions */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
+        <div className="lg:col-span-2">
+          <MiniBarChart bilans={allBilans} />
         </div>
+        <QuickActions />
+      </div>
 
-        <div className="rounded-2xl border border-ink/10 bg-paper overflow-hidden">
-          {recentBilansQ.isLoading ? (
-            <div className="p-12 flex justify-center"><LoadingSpinner /></div>
-          ) : recentBilansQ.data?.bilans?.length === 0 ? (
-            <div className="p-12 text-center text-muted">Aucun bilan pour le moment</div>
-          ) : (
-            <ul className="divide-y divide-ink/5">
-              {recentBilansQ.data?.bilans.map((b) => (
-                <li key={b.id}>
-                  <Link
-                    to={`/admin/patients/${b.patient_id}`}
-                    className="flex items-center gap-4 p-4 hover:bg-ink/[0.02] transition"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-ink truncate">{b.title}</p>
-                      <p className="text-xs text-muted mt-0.5">
-                        {b.patient_name} · {formatRelative(b.created_at)}
-                      </p>
-                    </div>
-                    <BilanStatusBadge status={b.status} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      {/* Activity feed */}
+      <div className="mt-8">
+        <ActivityFeed bilans={allBilans.slice(0, 10)} patients={recentPatients} />
       </div>
     </AdminLayout>
   );

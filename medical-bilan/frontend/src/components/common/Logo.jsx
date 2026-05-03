@@ -2,22 +2,17 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { cn } from '../../utils/cn';
 
-/**
- * Editorial-style logo with registered trademark superscript.
- * Matches the "Aethera®" pattern from the design brief.
- */
 const Logo = ({ className, dark = false, to = '/' }) => {
   const { t } = useTranslation();
   return (
-    <Link
-      to={to}
-      className={cn(
-        'font-serif text-3xl tracking-tight select-none',
-        dark ? 'text-paper' : 'text-ink',
-        className
-      )}
-    >
-      {t('brand.name')}<sup className="text-xs ml-0.5 align-super">®</sup>
+    <Link to={to} className={cn('inline-flex items-center gap-2.5 select-none group', className)}>
+      <span className="relative flex items-center justify-center w-8 h-8">
+        <span className="absolute inset-0 rounded-full bg-mint-300 animate-pulse-soft" />
+        <span className="relative w-3.5 h-3.5 rounded-full bg-mint-600 group-hover:scale-110 transition-transform" />
+      </span>
+      <span className={cn('display text-2xl tracking-tight', dark ? 'text-paper' : 'text-ink')}>
+        {t('brand.name')}<sup className="text-[0.45em] ml-0.5">®</sup>
+      </span>
     </Link>
   );
 };

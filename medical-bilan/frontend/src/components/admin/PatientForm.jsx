@@ -16,17 +16,11 @@ const Field = ({ label, error, children }) => (
 
 const inputCls = 'w-full px-4 py-3 rounded-xl border border-ink/15 focus:outline-none focus:border-ink transition bg-paper';
 
-/**
- * Create or edit a patient.
- * - When `patient` is provided → edit mode (no password field).
- * - Otherwise → create mode (password optional, server generates one if blank).
- */
 const PatientForm = ({ open, onClose, patient = null }) => {
   const isEdit = !!patient;
   const create = useCreatePatient();
   const update = useUpdatePatient();
-  const [revealedPassword, setRevealedPassword] = useState(null);
-  const [revealedName, setRevealedName] = useState('');
+  const [revealed, setRevealed] = useState(null); // { password, name, hasEmail, credentials }
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -56,9 +50,12 @@ const PatientForm = ({ open, onClose, patient = null }) => {
         const res = await create.mutateAsync(values);
         toast.success('Patient créé');
         if (res.generatedPassword) {
-          setRevealedName(res.patient.full_name);
-          setRevealedPassword(res.generatedPassword);
-          // Don't close yet — let the password modal show first
+          setRevealed({
+            password: res.generatedPassword,
+            name: res.patient.full_name,
+            hasEmail: !!res.patient.email,
+            credentials: res.credentials,
+          });
         } else {
           onClose();
         }
@@ -100,26 +97,27 @@ const PatientForm = ({ open, onClose, patient = null }) => {
 
           {!isEdit && (
             <div className="text-xs text-muted bg-ink/5 p-3 rounded-xl">
-              💡 Aucun mot de passe à saisir — le système en générera un automatiquement
-              et vous l'affichera après la création.
+              💡 Le système génère un mot de passe et l'envoie automatiquement au patient
+              par <strong>SMS</strong> (et <strong>email</strong> si renseigné).
             </div>
           )}
 
           <div className="flex justify-end gap-3 pt-2">
             <Button variant="secondary" type="button" onClick={onClose}>Annuler</Button>
             <Button type="submit" disabled={create.isPending || update.isPending}>
-              {create.isPending || update.isPending ? '...' : (isEdit ? 'Enregistrer' : 'Créer')}
+              {create.isPending || update.isPending ? '...' : (isEdit ? 'Enregistrer' : 'Créer + envoyer')}
             </Button>
           </div>
         </form>
       </Modal>
 
-      {/* Show generated password after successful creation */}
       <PasswordRevealModal
-        open={!!revealedPassword}
-        onClose={() => { setRevealedPassword(null); onClose(); }}
-        password={revealedPassword}
-        patientName={revealedName}
+        open={!!revealed}
+        onClose={() => { setRevealed(null); onClose(); }}
+        password={revealed?.password}
+        patientName={revealed?.name}
+        patientHasEmail={revealed?.hasEmail}
+        credentials={revealed?.credentials}
       />
     </>
   );

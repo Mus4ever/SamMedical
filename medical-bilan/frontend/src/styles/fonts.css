@@ -1,2 +1,12 @@
-/* Font imports — loaded via Google Fonts (already preconnected in index.html) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap');
+/* New typography system — distinctive editorial medical feel */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=DM+Sans:ital,opsz,wght@0,9..40,300..1000;1,9..40,300..1000&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Fraunces variation tuning — SOFT 50 = slightly warmer corners */
+.font-display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 0;
+}
+.font-display-soft {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0;
+}

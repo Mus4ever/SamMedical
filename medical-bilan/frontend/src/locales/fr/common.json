@@ -1,12 +1,14 @@
 {
   "brand": {
     "name": "Clinique",
-    "tagline": "Vos résultats, en sécurité"
+    "tagline": "La santé, simplifiée"
   },
   "nav": {
     "home": "Accueil",
     "about": "À propos",
     "services": "Services",
+    "features": "Avantages",
+    "faq": "FAQ",
     "contact": "Contact",
     "login": "Connexion",
     "logout": "Déconnexion",
@@ -16,33 +18,126 @@
   },
   "landing": {
     "hero": {
-      "headlineMain": "Au-delà des examens,",
+      "eyebrow": "Plateforme médicale moderne",
+      "headlinePart1": "Au-delà des",
+      "headlineHighlight1": "examens",
+      "headlinePart2": ",",
       "headlineEm": "votre tranquillité.",
-      "description": "Plateforme moderne de gestion des analyses médicales. Recevez vos résultats par notification automatique et consultez-les en toute confidentialité.",
-      "cta": "Accéder à mon espace"
+      "description": "Recevez vos résultats d'analyses par SMS, appel et email — dès qu'ils sont prêts. Consultez-les en toute confidentialité, où que vous soyez.",
+      "primaryCta": "Accéder à mon espace",
+      "secondaryCta": "Découvrir comment",
+      "trust": "patients connectés",
+      "partnership": "Vous êtes médecin ?"
     },
-    "about": {
-      "title": "Une expérience de soin repensée.",
-      "body": "Nous avons conçu cette plateforme pour libérer le patient et le médecin de la friction administrative. Vos résultats vous parviennent dès qu'ils sont disponibles, dans un environnement sécurisé."
+    "stats": {
+      "patientsLabel": "Patients actifs",
+      "patientsValue": 500,
+      "bilansLabel": "Bilans envoyés",
+      "bilansValue": 1200,
+      "satisfactionLabel": "Satisfaction",
+      "satisfactionValue": "99%",
+      "delayLabel": "Délai moyen",
+      "delayValue": "< 5 min"
     },
-    "services": {
-      "title": "Trois canaux. Une seule promesse.",
+    "features": {
+      "eyebrow": "Pourquoi nous choisir",
+      "title": "Pensé pour votre",
+      "titleEm": "tranquillité.",
+      "subtitle": "Tout ce qu'il faut pour une expérience patient irréprochable.",
       "items": [
-        { "title": "Notification SMS", "body": "Un message en arabe dès que vos résultats sont prêts." },
-        { "title": "Appel automatique", "body": "Un rappel vocal en darija pour ne rien manquer." },
-        { "title": "Email récapitulatif", "body": "Un courriel détaillé avec votre rapport en pièce jointe sécurisée." }
+        { "icon": "Zap",        "title": "Notifications instantanées",  "body": "SMS, appel et email envoyés automatiquement dès que vos résultats sont disponibles." },
+        { "icon": "ShieldCheck", "title": "Sécurité bancaire",           "body": "Chiffrement de bout en bout, URLs signées à expiration courte, audit complet de chaque consultation." },
+        { "icon": "Smartphone",  "title": "Mobile-first",                "body": "Conçu pour le téléphone — vos résultats lisibles partout, même sur 3G." },
+        { "icon": "Globe",       "title": "Bilingue FR/AR",              "body": "Notifications en darija algérienne pour les patients, interface française pour la clinique." },
+        { "icon": "Lock",        "title": "Confidentialité totale",      "body": "Vos données restent en Europe (Supabase EU), aucune revente, aucun pisteur." },
+        { "icon": "Headphones",  "title": "Support 24/7",                "body": "Une équipe dédiée pour vous accompagner et résoudre tout problème en moins d'une heure." }
       ]
     },
+    "how": {
+      "eyebrow": "Comment ça marche",
+      "title": "Trois étapes,",
+      "titleEm": "zéro friction.",
+      "subtitle": "De l'analyse au patient, un parcours fluide et sécurisé.",
+      "steps": [
+        { "n": "01", "title": "Le médecin charge votre bilan", "body": "Le PDF est uploadé en toute sécurité et chiffré dans le cloud Supabase." },
+        { "n": "02", "title": "Vous êtes prévenu instantanément", "body": "SMS en darija, email détaillé, et appel automatique avec voix arabe naturelle." },
+        { "n": "03", "title": "Consultez où, quand vous voulez", "body": "Connectez-vous depuis votre téléphone et téléchargez vos résultats en un clic." }
+      ]
+    },
+    "services": {
+      "eyebrow": "Notifications multicanal",
+      "title": "Trois canaux,",
+      "titleEm": "une seule promesse.",
+      "subtitle": "Vous ne raterez jamais un résultat important.",
+      "items": [
+        { "title": "SMS instant",         "body": "Un message en arabe dès que vos résultats sont prêts. Court, clair, immédiat." },
+        { "title": "Appel automatique",   "body": "Une voix en darija algérienne vous rappelle de consulter vos résultats." },
+        { "title": "Email récapitulatif", "body": "Un courriel professionnel détaillé avec le titre du bilan et le lien sécurisé." }
+      ]
+    },
+    "doctors": {
+      "eyebrow": "Pour les cliniques",
+      "title": "Pensé pour les",
+      "titleEm": "médecins exigeants.",
+      "body": "Une interface admin minimaliste pour gérer vos patients, uploader des bilans et déclencher les notifications en un clic. Plus de SMS manuels, plus de patients oubliés.",
+      "features": [
+        "Upload PDF sécurisé en glisser-déposer",
+        "Notifications automatiques en un clic",
+        "Historique complet et journal d'audit",
+        "Réinitialisation de mot de passe en 2 secondes",
+        "Recherche instantanée sur des centaines de patients",
+        "Statistiques en temps réel sur l'activité"
+      ],
+      "cta": "Demander une démo"
+    },
+    "faq": {
+      "eyebrow": "Questions fréquentes",
+      "title": "Vous vous",
+      "titleEm": "demandez ?",
+      "subtitle": "Tout ce qu'il faut savoir avant de commencer.",
+      "items": [
+        { "q": "Mes données sont-elles vraiment sécurisées ?",           "a": "Oui. Tous les fichiers sont chiffrés au repos sur Supabase (PostgreSQL + Storage en Europe), accessibles uniquement via des URLs signées valables 15 minutes. Aucun fichier n'est public, aucune donnée n'est revendue." },
+        { "q": "Comment je récupère mon mot de passe si je l'oublie ?", "a": "Le médecin peut réinitialiser votre mot de passe en deux secondes depuis l'interface admin. Le nouveau mot de passe vous est automatiquement renvoyé par SMS et email." },
+        { "q": "Est-ce que ça marche sans Internet ?",                   "a": "Vous recevez les notifications (SMS + appel) sans Internet. Pour télécharger le PDF, une connexion 3G suffit." },
+        { "q": "Combien de temps mes bilans restent-ils disponibles ?",  "a": "Indéfiniment, tant que votre médecin ne les supprime pas. Tous vos historiques de bilans sont consultables à tout moment." },
+        { "q": "Puis-je partager mes résultats avec un autre médecin ?", "a": "Oui — téléchargez le PDF puis transmettez-le par le canal de votre choix. Le fichier est lisible par tout logiciel PDF." },
+        { "q": "Combien ça coûte ?",                                     "a": "Pour les patients, c'est entièrement gratuit. Pour les cliniques, contactez-nous via le formulaire ou par email pour discuter des modalités." }
+      ]
+    },
+    "testimonials": {
+      "eyebrow": "Ils nous font confiance",
+      "title": "L'avis de ceux qui",
+      "titleEm": "l'utilisent.",
+      "items": [
+        { "quote": "Avant, je devais appeler chaque patient à la main. Maintenant, c'est automatique. Je gagne des heures chaque semaine.", "author": "Dr. Amine K.",  "role": "Médecin généraliste, Alger" },
+        { "quote": "Mes patients reçoivent leurs résultats en quelques minutes. Plus personne ne se déplace pour rien.",                      "author": "Dr. Souad B.", "role": "Cardiologue, Oran" },
+        { "quote": "L'interface est claire, les patients âgés comprennent. C'est la première plateforme adaptée à notre quotidien.",          "author": "Dr. Karim M.", "role": "Laboratoire d'analyses, Constantine" }
+      ]
+    },
+    "about": {
+      "eyebrow": "À propos",
+      "title": "Une expérience de soin",
+      "titleEm": "repensée.",
+      "body": "Nous avons conçu cette plateforme pour libérer le patient et le médecin de la friction administrative. Vos résultats vous parviennent dès qu'ils sont disponibles, dans un environnement sécurisé."
+    },
     "contact": {
-      "title": "Restons en contact.",
-      "body": "Une question, une suggestion ? Notre équipe vous répond.",
+      "eyebrow": "Restons en contact",
+      "title": "Une question,",
+      "titleEm": "une suggestion ?",
+      "body": "Notre équipe vous répond sous 24h. Pas de robot, des humains.",
       "cta": "Nous écrire"
+    },
+    "finalCta": {
+      "title": "Prêt à transformer votre clinique ?",
+      "body": "Démarrez en quelques minutes. Aucune carte bancaire requise.",
+      "primary": "Commencer maintenant",
+      "secondary": "Voir une démo"
     }
   },
   "auth": {
     "login": {
-      "title": "Connexion",
-      "subtitle": "Accédez à vos résultats d'analyses",
+      "title": "Bon retour",
+      "subtitle": "Accédez à vos résultats d'analyses en toute sécurité",
       "phone": "Numéro de téléphone",
       "password": "Mot de passe",
       "submit": "Se connecter",
@@ -56,19 +151,10 @@
     "cancel": "Annuler",
     "delete": "Supprimer",
     "search": "Rechercher",
-    "language": "Langue",
     "back": "Retour"
   },
   "errors": {
-    "notFound": {
-      "title": "Page introuvable",
-      "body": "La page que vous cherchez n'existe pas.",
-      "cta": "Retour à l'accueil"
-    },
-    "forbidden": {
-      "title": "Accès refusé",
-      "body": "Vous n'avez pas les droits nécessaires pour accéder à cette page.",
-      "cta": "Retour à l'accueil"
-    }
+    "notFound": { "title": "Page introuvable", "body": "La page que vous cherchez n'existe pas.", "cta": "Retour à l'accueil" },
+    "forbidden": { "title": "Accès refusé", "body": "Vous n'avez pas les droits nécessaires pour accéder à cette page.", "cta": "Retour à l'accueil" }
   }
 }

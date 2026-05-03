@@ -1,16 +1,14 @@
 import { cn } from '../../utils/cn';
 
 /**
- * Primary CTA button — black pill with white text.
- * Matches the "Begin Journey" pattern from the design brief.
- *
  * Variants:
- *   - primary  (default): black bg, white text
- *   - secondary: white bg, black border, black text
- *   - ghost: transparent, hover bg-black/5
+ *   primary    — black bg, white text (CTA)
+ *   secondary  — white with black border
+ *   mint       — mint bg, ink text (soft accent)
+ *   ghost      — transparent, hover bg
+ *   glass      — frosted glass with backdrop blur
  *
- * Sizes:
- *   - sm | md (default) | lg | xl
+ * Sizes: sm | md (default) | lg | xl
  */
 const Button = ({
   children,
@@ -21,15 +19,17 @@ const Button = ({
   ...rest
 }) => {
   const sizes = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-2.5 text-sm',
-    lg: 'px-10 py-3.5 text-base',
-    xl: 'px-14 py-5 text-base',
+    sm: 'px-4 py-2 text-sm gap-1.5',
+    md: 'px-6 py-2.5 text-sm gap-2',
+    lg: 'px-8 py-3.5 text-base gap-2',
+    xl: 'px-12 py-5 text-base gap-2.5',
   };
   const variants = {
-    primary:   'bg-ink text-paper hover:bg-black/90',
-    secondary: 'bg-paper text-ink border border-ink hover:bg-ink hover:text-paper',
-    ghost:     'bg-transparent text-ink hover:bg-black/5',
+    primary:   'bg-ink text-paper hover:bg-black/85 shadow-soft',
+    secondary: 'bg-paper text-ink border border-ink/15 hover:border-ink hover:bg-ink/5',
+    mint:      'bg-mint-100 text-mint-700 border border-mint-200 hover:bg-mint-200',
+    ghost:     'bg-transparent text-ink hover:bg-ink/5',
+    glass:     'glass text-ink hover:bg-white/80 shadow-soft',
   };
   return (
     <Component

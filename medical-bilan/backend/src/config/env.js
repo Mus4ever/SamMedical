@@ -41,7 +41,6 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-// JWT_SECRET sanity check — refuse to boot with a weak secret in production.
 if (process.env.JWT_SECRET.length < 32) {
   console.error('\n❌ JWT_SECRET must be at least 32 characters long.');
   console.error('   Generate one with: node -e "console.log(require(\'crypto\').randomBytes(48).toString(\'hex\'))"\n');
@@ -78,6 +77,14 @@ const config = Object.freeze({
   resend: {
     apiKey:    process.env.RESEND_API_KEY || null,
     fromEmail: process.env.RESEND_FROM_EMAIL || null,
+  },
+  elevenlabs: {
+    apiKey:  process.env.ELEVENLABS_API_KEY || null,
+    voiceId: process.env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB', // "Adam", multilingual default
+    modelId: process.env.ELEVENLABS_MODEL_ID || 'eleven_multilingual_v2',
+  },
+  audio: {
+    filename: process.env.AUDIO_FILENAME || 'bilan_ready_darija.mp3',
   },
   clinic: {
     name:  process.env.CLINIC_NAME || 'Clinique',

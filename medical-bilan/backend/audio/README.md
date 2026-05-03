@@ -1,40 +1,55 @@
 # Audio files (TTS notification)
 
-This folder holds the pre-generated audio files that Twilio plays when calling a patient. The MP3s themselves are **gitignored** — generate them locally.
+This folder holds the pre-generated MP3 that Twilio plays when calling a patient.
+The MP3s are **gitignored** — generate them locally.
 
-## What goes here
+## Generate via ElevenLabs (recommended)
 
-- `bilan_ready_ar.mp3` — Arabic/Darija notification voice message
+1. Sign up free at https://elevenlabs.io (10,000 chars/month, no credit card needed)
+2. Settings → Profile → copy your API key
+3. Add to `backend/.env`:
+   ```env
+   ELEVENLABS_API_KEY=your_key_here
+   ELEVENLABS_VOICE_ID=pNInz6obpgDQGcFmaJgB    # default: "Adam" multilingual
+   ```
+4. Run:
+   ```bash
+   cd backend
+   npm run generate-audio
+   ```
+5. The script writes `backend/audio/bilan_ready_darija.mp3` (~30-50 KB).
+6. Test it: open the file in any audio player. If you don't like the voice, swap `ELEVENLABS_VOICE_ID` and re-run.
 
-## How to generate
+### Custom text
+```bash
+npm run generate-audio -- --text "السلام عليكم..."
+```
 
-(Layer 6 will add `scripts/generate-audio.js` to do this automatically.)
+### Custom voice
+```bash
+npm run generate-audio -- --voice EXAVITQu4vr4xnSDxMaL    # "Sarah"
+```
 
-For now, two free options:
+Browse voices: https://elevenlabs.io/app/voice-library
+Filter by "Multilingual" to find ones that support Arabic/Darija well.
 
-### Option A — ElevenLabs (best quality, free 10k chars/month)
-
-1. Sign up at https://elevenlabs.io
-2. Pick a voice that supports Arabic
-3. Paste the message text (Darija pronounciation):
-   > السلام عليكم. نتيجة التحاليل ديالك جاهزة. دخل لحسابك على الموقع باش تشوفها. شكرا
-4. Generate, download as MP3, save here as `bilan_ready_ar.mp3`
-
-### Option B — Microsoft Edge TTS (completely free, no API key)
+## Alternative: Microsoft Edge TTS (no API key needed)
 
 ```bash
 pip install edge-tts
 edge-tts --voice "ar-DZ-IsmaelNeural" \
   --text "السلام عليكم. نتيجة التحاليل ديالك جاهزة. دخل لحسابك على الموقع باش تشوفها. شكرا" \
-  --write-media bilan_ready_ar.mp3
+  --write-media bilan_ready_darija.mp3
 ```
 
-Available Arabic voices: `ar-DZ-IsmaelNeural` (Algerian male), `ar-DZ-AminaNeural` (Algerian female), `ar-EG-SalmaNeural`, etc. Run `edge-tts --list-voices | grep ar-` to see all.
+Algerian voices: `ar-DZ-IsmaelNeural` (male), `ar-DZ-AminaNeural` (female).
 
-### Option C — Twilio's built-in `<Say>` (zero file needed)
+## Alternative: Twilio's built-in `<Say>` (zero file needed)
 
-If you skip generating an MP3 entirely, the backend can fall back to Twilio's Polly TTS via `<Say voice="Polly.Zeina" language="arb">...</Say>`. Modern Standard Arabic only — sounds more formal but works out of the box.
-
-## Serving
-
-The Express app serves this folder at `/audio/<filename>` so Twilio can fetch it via `APP_PUBLIC_URL/audio/bilan_ready_ar.mp3`.
+If you can't generate an MP3, swap the TwiML in `backend/src/controllers/notification.controller.js`:
+```xml
+<Response>
+  <Say voice="Polly.Zeina" language="arb">رسالتك هنا</Say>
+</Response>
+```
+Polly speaks Modern Standard Arabic (sounds formal, not Darija) but works out of the box with Twilio.

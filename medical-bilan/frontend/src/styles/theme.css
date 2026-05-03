@@ -17,3 +17,28 @@
 
 /* Smooth scroll for anchor links on the landing page */
 html { scroll-behavior: smooth; }
+
+/* ─────────────────────────────────────────────────────
+   Fraunces variable axis utilities
+   ───────────────────────────────────────────────────── */
+.fraunces-display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50, 'WONK' 0;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+.fraunces-display-italic {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+.fraunces-mid {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: 'opsz' 36, 'SOFT' 30;
+  font-weight: 500;
+}
+
+/* Font numerics — tabular for stat counters */
+.tabular { font-variant-numeric: tabular-nums; }
