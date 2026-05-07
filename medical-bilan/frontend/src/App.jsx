@@ -4,24 +4,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
-// Public
 import Landing from './pages/Landing';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Forbidden from './pages/Forbidden';
 
-// Patient
 import MyBilans from './pages/patient/MyBilans';
 
-// Admin
 import Dashboard     from './pages/admin/Dashboard';
 import Patients      from './pages/admin/Patients';
 import PatientDetail from './pages/admin/PatientDetail';
+import AllBilans     from './pages/admin/AllBilans';
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { staleTime: 30_000, refetchOnWindowFocus: false },
-  },
+  defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } },
 });
 
 export default function App() {
@@ -33,17 +30,21 @@ export default function App() {
             style: { borderRadius: '12px', background: '#000', color: '#fff' },
           }} />
           <Routes>
-            {/* ── Public ── */}
             <Route path="/"          element={<Landing />} />
             <Route path="/login"     element={<Login />} />
             <Route path="/forbidden" element={<Forbidden />} />
 
-            {/* ── Patient ── */}
+            {/* Profile — accessible to any authenticated user */}
+            <Route path="/profile" element={
+              <ProtectedRoute><Profile /></ProtectedRoute>
+            } />
+
+            {/* Patient */}
             <Route path="/patient/bilans" element={
               <ProtectedRoute role="patient"><MyBilans /></ProtectedRoute>
             } />
 
-            {/* ── Admin ── */}
+            {/* Admin */}
             <Route path="/admin/dashboard" element={
               <ProtectedRoute role="admin"><Dashboard /></ProtectedRoute>
             } />
@@ -53,8 +54,10 @@ export default function App() {
             <Route path="/admin/patients/:id" element={
               <ProtectedRoute role="admin"><PatientDetail /></ProtectedRoute>
             } />
+            <Route path="/admin/bilans" element={
+              <ProtectedRoute role="admin"><AllBilans /></ProtectedRoute>
+            } />
 
-            {/* ── Aliases + 404 ── */}
             <Route path="/admin"   element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="/patient" element={<Navigate to="/patient/bilans" replace />} />
             <Route path="*"        element={<NotFound />} />

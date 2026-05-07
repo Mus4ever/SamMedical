@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LogOut } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import Logo from './Logo';
 
@@ -13,10 +13,25 @@ const AppNavbar = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Logo />
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           {user && (
-            <span className="hidden sm:inline text-sm text-muted">{user.fullName}</span>
+            <Link
+              to="/profile"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-2 text-sm text-ink hover:bg-ink/5 rounded-full transition"
+            >
+              <span className="w-7 h-7 rounded-full bg-gradient-to-br from-mint-200 to-mint-500 text-paper flex items-center justify-center text-xs font-medium">
+                {user.fullName?.charAt(0).toUpperCase()}
+              </span>
+              <span>{user.fullName}</span>
+            </Link>
           )}
+          <Link
+            to="/profile"
+            className="sm:hidden p-2 rounded-full hover:bg-ink/5"
+            title="Profil"
+          >
+            <User className="w-4 h-4" />
+          </Link>
           <button
             onClick={logout}
             className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition px-3 py-2 rounded-full hover:bg-ink/5"

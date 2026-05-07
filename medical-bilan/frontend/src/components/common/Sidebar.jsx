@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, Users } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, User } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 const Sidebar = () => {
@@ -8,6 +8,8 @@ const Sidebar = () => {
   const items = [
     { to: '/admin/dashboard', label: t('nav.dashboard'), icon: LayoutDashboard },
     { to: '/admin/patients',  label: t('nav.patients'),  icon: Users },
+    { to: '/admin/bilans',    label: 'Tous les bilans',  icon: FileText },
+    { to: '/profile',         label: 'Profil',           icon: User },
   ];
 
   return (
@@ -20,9 +22,7 @@ const Sidebar = () => {
               to={to}
               className={({ isActive }) => cn(
                 'flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all',
-                isActive
-                  ? 'bg-ink text-paper shadow-soft-lg'
-                  : 'text-muted hover:text-ink hover:bg-white/60'
+                isActive ? 'bg-ink text-paper shadow-soft-lg' : 'text-muted hover:text-ink hover:bg-white/60'
               )}
             >
               <Icon className="w-4 h-4" />
