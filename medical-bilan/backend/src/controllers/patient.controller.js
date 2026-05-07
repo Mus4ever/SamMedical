@@ -16,6 +16,7 @@ const { query } = require('../config/db');
 const { HttpError } = require('../middleware/errorHandler');
 const { normalizePhone, isValidAlgerianPhone } = require('../utils/phone');
 const { sendCredentials } = require('../services/notification.service');
+const auditService = require('../services/audit.service');
 
 const validate = (req) => {
   const errors = validationResult(req);
@@ -187,6 +188,7 @@ const updatePatient = async (req, res, next) => {
                  RETURNING id, full_name, phone, email, is_active, updated_at`;
     const result = await query(sql, params);
     if (result.rows.length === 0) throw new HttpError(404, 'Patient introuvable');
+    auditService.log(req, 'patient.update', { targetType: 'patient', targetId: id }).catch(() => {});
     res.json(result.rows[0]);
   } catch (err) {
     next(err);
@@ -228,6 +230,8 @@ const resetPatientPassword = async (req, res, next) => {
       }),
       new Promise(resolve => setTimeout(() => resolve({ pending: true }), 5000)),
     ]);
+
+    auditService.log(req, 'patient.reset_password', { targetType: 'patient', targetId: id }).catch(() => {});
 
     res.json({
       patient,

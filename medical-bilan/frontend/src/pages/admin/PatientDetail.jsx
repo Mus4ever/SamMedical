@@ -10,6 +10,7 @@ import UploadBilanModal from '../../components/admin/UploadBilanModal';
 import PatientForm from '../../components/admin/PatientForm';
 import PasswordRevealModal from '../../components/admin/PasswordRevealModal';
 import NotificationLogsModal from '../../components/admin/NotificationLogsModal';
+import BilanViewerModal from '../../components/common/BilanViewerModal';
 import { usePatient, useResetPatientPassword } from '../../hooks/queries/usePatients';
 import { useMarkBilanReady, useDeleteBilan, useDownloadBilan } from '../../hooks/queries/useBilans';
 import { formatDate, formatDateTime } from '../../utils/formatDate';
@@ -26,6 +27,7 @@ const PatientDetail = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [revealed, setRevealed] = useState(null);
   const [logsBilan, setLogsBilan] = useState(null);
+  const [viewerBilan, setViewerBilan] = useState(null);
 
   if (isLoading) return <AdminLayout><div className="flex justify-center py-20"><LoadingSpinner /></div></AdminLayout>;
   if (!patient) return <AdminLayout><p className="text-center text-muted py-20">Patient introuvable.</p></AdminLayout>;
@@ -39,9 +41,8 @@ const PatientDetail = () => {
     try { await deleteBilan.mutateAsync(bilanId); toast.success('Bilan supprimé'); }
     catch { toast.error('Erreur suppression'); }
   };
-  const handleDownload = async (bilanId) => {
-    try { const { url } = await download.mutateAsync(bilanId); window.open(url, '_blank'); }
-    catch { toast.error('Impossible de télécharger'); }
+  const handleView = (bilan) => {
+    setViewerBilan(bilan);
   };
   const handleResetPassword = async () => {
     if (!confirm(`Réinitialiser le mot de passe de ${patient.full_name} ? Un nouveau sera envoyé par SMS et email.`)) return;
@@ -129,7 +130,7 @@ const PatientDetail = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
-                    <button onClick={() => handleDownload(b.id)} title="Télécharger" className="p-2.5 rounded-xl hover:bg-sky-50 text-muted hover:text-sky-600 transition">
+                    <button onClick={() => handleView(b)} title="Télécharger" className="p-2.5 rounded-xl hover:bg-sky-50 text-muted hover:text-sky-600 transition">
                       <Download className="w-4 h-4" />
                     </button>
                     {b.notification_sent && (
@@ -172,6 +173,13 @@ const PatientDetail = () => {
         onClose={() => setLogsBilan(null)}
         bilanId={logsBilan?.id}
         bilanTitle={logsBilan?.title}
+      />
+      <BilanViewerModal
+        open={!!viewerBilan}
+        onClose={() => setViewerBilan(null)}
+        bilanId={viewerBilan?.id}
+        bilanTitle={viewerBilan?.title}
+        fileName={viewerBilan?.file_name}
       />
     </AdminLayout>
   );

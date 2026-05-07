@@ -22,6 +22,7 @@ const authRoutes = require('./routes/auth.routes');
 const patientRoutes = require('./routes/patient.routes');
 const bilanRoutes = require('./routes/bilan.routes');
 const notificationRoutes = require('./routes/notification.routes');
+const auditRoutes        = require('./routes/audit.routes');
 
 const app = express();
 
@@ -79,6 +80,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/bilans', bilanRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/audit-logs', auditRoutes);
 
 // --- 404 + error handler (must be LAST) ---
 app.use(notFound);

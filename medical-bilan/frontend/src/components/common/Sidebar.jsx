@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, Users, FileText, User } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, User, Activity } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 const Sidebar = () => {
@@ -9,6 +9,7 @@ const Sidebar = () => {
     { to: '/admin/dashboard', label: t('nav.dashboard'), icon: LayoutDashboard },
     { to: '/admin/patients',  label: t('nav.patients'),  icon: Users },
     { to: '/admin/bilans',    label: 'Tous les bilans',  icon: FileText },
+    { to: '/admin/audit',     label: 'Activité',         icon: Activity },
     { to: '/profile',         label: 'Profil',           icon: User },
   ];
 

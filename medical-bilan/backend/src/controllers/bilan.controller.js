@@ -15,6 +15,7 @@ const { query } = require('../config/db');
 const { HttpError } = require('../middleware/errorHandler');
 const { uploadBilan: uploadToStorage, getSignedUrl, deleteBilan: deleteFromStorage } = require('../services/storage.service');
 const { notifyPatient } = require('../services/notification.service');
+const auditService = require('../services/audit.service');
 
 const validate = (req) => {
   const errors = validationResult(req);
@@ -58,6 +59,8 @@ const uploadBilan = async (req, res, next) => {
        RETURNING *`,
       [patientId, req.user.id, title.trim(), description?.trim() || null, fileKey, file.originalname, file.size]
     );
+
+    auditService.log(req, 'bilan.upload', { targetType: 'bilan', targetId: bilanResult.rows[0].id, metadata: { patientId, title } }).catch(() => {});
 
     res.status(201).json({
       bilan: bilanResult.rows[0],
@@ -252,6 +255,8 @@ const markBilanReady = async (req, res, next) => {
       console.error(`[bilan] Notification error for bilan ${id}:`, err.message);
     });
 
+    auditService.log(req, 'bilan.mark_ready', { targetType: 'bilan', targetId: id }).catch(() => {});
+
     res.json({
       bilan: updated.rows[0],
       message: 'Bilan marqué prêt, notifications en cours d\'envoi',
@@ -288,6 +293,7 @@ const deleteBilan = async (req, res, next) => {
 
     // Delete from DB (cascades to notification_logs and bilan_access_logs)
     await query('DELETE FROM bilans WHERE id = $1', [id]);
+    auditService.log(req, 'bilan.delete', { targetType: 'bilan', targetId: id, metadata: { title: bilan.title } }).catch(() => {});
 
     res.json({ message: 'Bilan supprimé' });
   } catch (err) {

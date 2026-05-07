@@ -6,6 +6,8 @@ import Button from '../../components/common/Button';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import BilanStatusBadge from '../../components/admin/BilanStatusBadge';
 import NotificationLogsModal from '../../components/admin/NotificationLogsModal';
+import BilanViewerModal from '../../components/common/BilanViewerModal';
+import { Eye } from 'lucide-react';
 import { useAllBilans } from '../../hooks/queries/useBilans';
 import { formatDateTime } from '../../utils/formatDate';
 import { cn } from '../../utils/cn';
@@ -16,7 +18,8 @@ const AllBilans = () => {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(0);
-  const [logsBilan, setLogsBilan] = useState(null); // { id, title }
+  const [logsBilan, setLogsBilan] = useState(null);
+  const [viewerBilan, setViewerBilan] = useState(null);
 
   const { data, isLoading } = useAllBilans({
     search,
@@ -110,6 +113,13 @@ const AllBilans = () => {
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button
+                      onClick={() => setViewerBilan(b)}
+                      title="Consulter le bilan"
+                      className="p-2.5 rounded-xl hover:bg-mint-100 text-muted hover:text-mint-700 transition"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </button>
+                    <button
                       onClick={() => setLogsBilan({ id: b.id, title: b.title })}
                       title="Voir les notifications"
                       className="p-2.5 rounded-xl hover:bg-sky-50 text-muted hover:text-sky-600 transition"
@@ -150,6 +160,13 @@ const AllBilans = () => {
         onClose={() => setLogsBilan(null)}
         bilanId={logsBilan?.id}
         bilanTitle={logsBilan?.title}
+      />
+      <BilanViewerModal
+        open={!!viewerBilan}
+        onClose={() => setViewerBilan(null)}
+        bilanId={viewerBilan?.id}
+        bilanTitle={viewerBilan?.title}
+        fileName={viewerBilan?.file_name}
       />
     </AdminLayout>
   );

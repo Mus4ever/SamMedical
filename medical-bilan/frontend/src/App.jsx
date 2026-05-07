@@ -16,6 +16,7 @@ import Dashboard     from './pages/admin/Dashboard';
 import Patients      from './pages/admin/Patients';
 import PatientDetail from './pages/admin/PatientDetail';
 import AllBilans     from './pages/admin/AllBilans';
+import AuditLogs     from './pages/admin/AuditLogs';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } },
@@ -56,6 +57,9 @@ export default function App() {
             } />
             <Route path="/admin/bilans" element={
               <ProtectedRoute role="admin"><AllBilans /></ProtectedRoute>
+            } />
+            <Route path="/admin/audit" element={
+              <ProtectedRoute role="admin"><AuditLogs /></ProtectedRoute>
             } />
 
             <Route path="/admin"   element={<Navigate to="/admin/dashboard" replace />} />
