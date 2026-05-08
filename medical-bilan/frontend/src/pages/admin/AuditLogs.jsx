@@ -6,6 +6,7 @@ import Skeleton from '../../components/common/Skeleton';
 import { useAuditLogs } from '../../hooks/queries/useAuditLogs';
 import { formatDateTime } from '../../utils/formatDate';
 import { cn } from '../../utils/cn';
+import { useSeo } from '../../hooks/useSeo';
 
 const PAGE_SIZE = 30;
 
@@ -26,6 +27,8 @@ const colorMap = {
 };
 
 const AuditLogs = () => {
+  useSeo({ title: 'Journal d'activité', description: 'Historique des actions effectuées par les administrateurs.' });
+
   const [filter, setFilter] = useState('all');
   const [page, setPage] = useState(0);
 

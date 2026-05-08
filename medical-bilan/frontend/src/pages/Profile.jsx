@@ -8,10 +8,13 @@ import PatientLayout from '../layouts/PatientLayout';
 import Button from '../components/common/Button';
 import { useAuth } from '../hooks/useAuth';
 import { useChangePassword } from '../hooks/queries/useAuth';
+import { useSeo } from '../hooks/useSeo';
 
 const inputCls = 'w-full px-4 py-3 rounded-2xl border border-ink/10 bg-white/70 focus:outline-none focus:border-mint-400 focus:bg-white transition text-ink';
 
 const Profile = () => {
+  useSeo({ title: 'Mon profil', description: 'Gérez vos informations et changez votre mot de passe.' });
+
   const { user, logout } = useAuth();
   const changePwd = useChangePassword();
   const [showCurrent, setShowCurrent] = useState(false);

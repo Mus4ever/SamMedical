@@ -11,10 +11,13 @@ import { Eye } from 'lucide-react';
 import { useAllBilans } from '../../hooks/queries/useBilans';
 import { formatDateTime } from '../../utils/formatDate';
 import { cn } from '../../utils/cn';
+import { useSeo } from '../../hooks/useSeo';
 
 const PAGE_SIZE = 20;
 
 const AllBilans = () => {
+  useSeo({ title: 'Tous les bilans', description: 'Liste de tous les bilans médicaux.' });
+
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(0);
@@ -114,14 +117,14 @@ const AllBilans = () => {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button
                       onClick={() => setViewerBilan(b)}
-                      title="Consulter le bilan"
+                      title="Consulter le bilan" aria-label="Consulter le bilan"
                       className="p-2.5 rounded-xl hover:bg-mint-100 text-muted hover:text-mint-700 transition"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => setLogsBilan({ id: b.id, title: b.title })}
-                      title="Voir les notifications"
+                      title="Voir les notifications" aria-label="Voir les notifications"
                       className="p-2.5 rounded-xl hover:bg-sky-50 text-muted hover:text-sky-600 transition"
                     >
                       <Send className="w-4 h-4" />

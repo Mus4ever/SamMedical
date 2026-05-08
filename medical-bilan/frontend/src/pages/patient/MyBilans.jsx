@@ -5,8 +5,11 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import BilanCard from '../../components/patient/BilanCard';
 import { useMyBilans } from '../../hooks/queries/useBilans';
 import { useAuth } from '../../hooks/useAuth';
+import { useSeo } from '../../hooks/useSeo';
 
 const MyBilans = () => {
+  useSeo({ title: 'Mes résultats', description: 'Consultez vos bilans médicaux en toute confidentialité.' });
+
   const { t } = useTranslation();
   const { user } = useAuth();
   const { data, isLoading, error } = useMyBilans();

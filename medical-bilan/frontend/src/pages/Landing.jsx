@@ -18,6 +18,7 @@ import CtaSection           from '../components/landing/CtaSection';
 const Landing = () => (
   <div className="bg-paper">
     <PublicNavbar />
+    <main id="main">
     <HeroSection />
     <StatsBar />
     <FeaturesSection />
@@ -32,6 +33,7 @@ const Landing = () => (
     <AboutSection />
     <ContactSection />
     <CtaSection />
+    </main>
     <Footer />
   </div>
 );

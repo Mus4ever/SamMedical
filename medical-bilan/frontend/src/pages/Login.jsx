@@ -5,8 +5,11 @@ import { ArrowRight, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
 import Logo from '../components/common/Logo';
+import { useSeo } from '../hooks/useSeo';
 
 const Login = () => {
+  useSeo({ title: 'Connexion', description: 'Accédez à vos résultats d\'analyses médicales en toute sécurité.' });
+
   const { t } = useTranslation();
   const { login, user } = useAuth();
   const navigate = useNavigate();
@@ -49,7 +52,7 @@ const Login = () => {
         </Link>
       </header>
 
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pb-20">
+      <main id="main" className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pb-20">
         <div className="w-full max-w-md animate-fade-rise">
           <div className="glass rounded-3xl p-8 sm:p-10 shadow-soft-xl">
             <h1 className="font-serif text-4xl sm:text-5xl text-ink text-center" style={{ letterSpacing: '-1px', lineHeight: 1 }}>

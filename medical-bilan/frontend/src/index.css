@@ -196,3 +196,24 @@ html { scroll-behavior: smooth; }
   opacity: 1;
   transform: translateY(0);
 }
+
+
+/* ─────────────────────────────────────────────────────
+   Skip to main (accessibility)
+   ───────────────────────────────────────────────────── */
+.skip-to-main {
+  position: absolute;
+  left: 1rem;
+  top: -40px;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: #0A0A0A;
+  color: #FFFFFF;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: top 0.2s ease;
+}
+.skip-to-main:focus {
+  top: 1rem;
+}

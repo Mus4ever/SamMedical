@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from '../components/common/Button';
+import { useSeo } from '../hooks/useSeo';
 
 const Forbidden = () => {
+  useSeo({ title: 'Accès refusé', description: 'Vous n\'avez pas accès à cette page.' });
+
   const { t } = useTranslation();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center bg-paper">

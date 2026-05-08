@@ -14,8 +14,11 @@ import BilanViewerModal from '../../components/common/BilanViewerModal';
 import { usePatient, useResetPatientPassword } from '../../hooks/queries/usePatients';
 import { useMarkBilanReady, useDeleteBilan, useDownloadBilan } from '../../hooks/queries/useBilans';
 import { formatDate, formatDateTime } from '../../utils/formatDate';
+import { useSeo } from '../../hooks/useSeo';
 
 const PatientDetail = () => {
+  useSeo({ title: 'Détail patient', description: 'Bilans et informations du patient.' });
+
   const { id } = useParams();
   const { data: patient, isLoading } = usePatient(id);
   const markReady = useMarkBilanReady();
@@ -130,7 +133,7 @@ const PatientDetail = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
-                    <button onClick={() => handleView(b)} title="Télécharger" className="p-2.5 rounded-xl hover:bg-sky-50 text-muted hover:text-sky-600 transition">
+                    <button onClick={() => handleView(b)} title="Télécharger" aria-label="Télécharger ce bilan" className="p-2.5 rounded-xl hover:bg-sky-50 text-muted hover:text-sky-600 transition">
                       <Download className="w-4 h-4" />
                     </button>
                     {b.notification_sent && (
@@ -143,11 +146,11 @@ const PatientDetail = () => {
                       </button>
                     )}
                     {b.status === 'pending' && (
-                      <button onClick={() => handleMarkReady(b.id)} title="Marquer prêt + notifier" className="p-2.5 rounded-xl hover:bg-mint-100 text-muted hover:text-mint-700 transition">
+                      <button onClick={() => handleMarkReady(b.id)} title="Marquer prêt + notifier" aria-label="Marquer prêt et envoyer les notifications" className="p-2.5 rounded-xl hover:bg-mint-100 text-muted hover:text-mint-700 transition">
                         <Send className="w-4 h-4" />
                       </button>
                     )}
-                    <button onClick={() => handleDelete(b.id)} title="Supprimer" className="p-2.5 rounded-xl hover:bg-red-50 text-muted hover:text-red-600 transition">
+                    <button onClick={() => handleDelete(b.id)} title="Supprimer" aria-label="Supprimer ce bilan" className="p-2.5 rounded-xl hover:bg-red-50 text-muted hover:text-red-600 transition">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>

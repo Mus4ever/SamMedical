@@ -8,8 +8,11 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { usePatientsList } from '../../hooks/queries/usePatients';
 import { useAllBilans } from '../../hooks/queries/useBilans';
 import { useAuth } from '../../hooks/useAuth';
+import { useSeo } from '../../hooks/useSeo';
 
 const Dashboard = () => {
+  useSeo({ title: 'Tableau de bord', description: 'Aperçu temps réel de l\'activité de la clinique.' });
+
   const { user } = useAuth();
   const patientsQ = usePatientsList({ limit: 5 });
   const allBilansQ = useAllBilans({ limit: 200 });

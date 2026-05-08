@@ -8,10 +8,13 @@ import PatientForm from '../../components/admin/PatientForm';
 import { usePatientsList } from '../../hooks/queries/usePatients';
 import { formatDate } from '../../utils/formatDate';
 import { cn } from '../../utils/cn';
+import { useSeo } from '../../hooks/useSeo';
 
 const PAGE_SIZE = 20;
 
 const Patients = () => {
+  useSeo({ title: 'Patients', description: 'Liste des patients enregistrés.' });
+
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all'); // 'all' | 'active' | 'inactive'
   const [page, setPage] = useState(0);

@@ -6,7 +6,7 @@ const AdminLayout = ({ children }) => (
     <AppNavbar />
     <div className="flex flex-1">
       <Sidebar />
-      <main className="flex-1 p-6 md:p-10">
+      <main id="main" className="flex-1 p-6 md:p-10">
         <div className="max-w-7xl mx-auto">{children}</div>
       </main>
     </div>
